@@ -9,10 +9,30 @@ import org.apache.spark.sql.{SparkSession, functions => F}
 import org.apache.spark.sql.functions.udf
 
 object Main {
+  private def addArtifactsFromClasspathFile(spark: SparkSession, classpathFile: String): Unit = {
+    val path = Paths.get(classpathFile)
+    if (Files.exists(path)) {
+      val classpath = new String(Files.readAllBytes(path)).trim
+      classpath.split(":").foreach { jar =>
+        val f = new java.io.File(jar)
+        if (f.exists() && f.getName.endsWith(".jar")) {
+          println(s"Adding artifact: $jar")
+          Try(spark.addArtifact(jar)).recover {
+            case e: Exception =>
+              println(s"Failed to add $jar: ${e.getMessage}")
+          }
+        }
+      }
+    } else {
+      println(s"Classpath file not found: $classpathFile")
+    }
+  }
+
   def main(args: Array[String]): Unit = {
     println("Hello, World!")
 
     val spark = getSession()
+    addArtifactsFromClasspathFile(spark, "classpath.txt")
     println("Showing range ...")
     spark.range(3).show()
 
@@ -31,6 +51,7 @@ object Main {
       println("Running outside Databricks")
       DatabricksSession.builder()
         .serverless()
+//        .clusterId("0610-080818-ys2al2qw")
         .validateSession(false)
         .addCompiledArtifacts(Main.getClass.getProtectionDomain.getCodeSource.getLocation.toURI)
         .getOrCreate()
