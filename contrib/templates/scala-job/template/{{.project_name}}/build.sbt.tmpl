@@ -6,7 +6,7 @@ name := "{{.project_name}}"
 organization := "{{template `organization` .}}"
 version := "{{template `version` .}}"
 
-externalResolvers := Seq("My Repo" at "file://" + baseDirectory.value.getAbsolutePath + "/lib/")
+externalResolvers += "My Repo" at "file://" + baseDirectory.value.getAbsolutePath + "/lib/"
 libraryDependencies += "com.databricks" %% "databricks-connect" % "{{template `dbr_version` .}}.+"
 libraryDependencies += "org.slf4j" % "slf4j-simple" % "2.0.16"
 
