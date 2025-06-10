@@ -45,6 +45,15 @@ object Main {
     val nycTaxi = new NycTaxi(spark)
     val df = nycTaxi.trips()
     df.show()
+
+//    // Define a simple UDF that formats the passenger count as a string
+//    val testudf = udf((count: String) => s"test: $count")Add commentMore actions
+//
+//    // Apply the UDF to the passenger_count column
+//    val transformedDF = df.withColumn("testresult", testudf(F.col("dropoff_zip")))
+//
+//    // Show the transformed DataFrame
+//    transformedDF.show()
   }
 
   def getSession(): SparkSession = {
