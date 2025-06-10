@@ -4,6 +4,9 @@ serverless or on a Databricks cluster.
  */
 package com.examples
 
+import java.nio.file.{Paths, Files}
+import java.nio.charset.StandardCharsets
+
 import com.databricks.connect.DatabricksSession
 import org.apache.spark.sql.{SparkSession, functions => F}
 import org.apache.spark.sql.functions.udf
@@ -17,7 +20,9 @@ object Main {
         val f = new java.io.File(jar)
         if (f.exists() && f.getName.endsWith(".jar")) {
           println(s"Adding artifact: $jar")
-          Try(spark.addArtifact(jar)).recover {
+          try {
+            spark.addArtifact(jar)
+          } catch {
             case e: Exception =>
               println(s"Failed to add $jar: ${e.getMessage}")
           }
@@ -32,7 +37,7 @@ object Main {
     println("Hello, World!")
 
     val spark = getSession()
-    addArtifactsFromClasspathFile(spark, "classpath.txt")
+//    addArtifactsFromClasspathFile(spark, "classpath.txt")
     println("Showing range ...")
     spark.range(3).show()
 
