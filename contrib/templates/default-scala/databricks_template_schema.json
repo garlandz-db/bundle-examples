@@ -12,6 +12,7 @@
       "type": "string",
       "description": "\nPlease select the compute type.\ncompute_type",
       "enum": ["classic", "serverless"],
+      "default": "serverless",
       "order": 2
     },
     "artifacts_dest_path": {
