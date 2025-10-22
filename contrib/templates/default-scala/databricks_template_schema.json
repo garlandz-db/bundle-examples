@@ -11,7 +11,7 @@
     "compute_type": {
       "type": "string",
       "description": "\nPlease select the compute type.\ncompute_type",
-      "enum": ["classic", "serverless"],
+      "enum": ["standard", "serverless"],
       "default": "serverless",
       "order": 2
     },

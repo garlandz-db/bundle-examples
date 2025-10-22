@@ -2,7 +2,7 @@
 
 This template helps you create Scala projects with Databricks Asset Bundles. It uses sbt to compile and package Scala files, and can be used with Databricks Connect for local development.
 
-It supports both classic compute (with dedicated clusters) and serverless compute.
+It supports two compute types: standard and serverless compute.
 
 Run
 ```
